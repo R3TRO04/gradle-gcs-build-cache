@@ -11,8 +11,8 @@ jobs:
     strategy:
       matrix:
         gradle-version:
-          - 9.2.1 # the latest release that is tested with Kotlin 2.2.0 (Kotlin Language Level 2.2)
-          - 8.14.3 # the latest release that is tested with Kotlin 2.0.21 (Kotlin Language Level 1.8)
+          - 9.4.1 # the latest release that is tested with Kotlin 2.2.0 (Kotlin Language Level 2.2)
+          - 8.14.4 # the latest release that is tested with Kotlin 2.0.21 (Kotlin Language Level 1.8)
     steps:
       - uses: actions/checkout@v6
       - uses: gradle/actions/wrapper-validation@v5
