@@ -28,12 +28,10 @@ import org.gradle.kotlin.dsl.remote
  */
 abstract class GCSBuildCachePlugin : Plugin<Settings> {
     override fun apply(settings: Settings) {
-        settings.run {
-            buildCache {
-                registerBuildCacheService<GCSBuildCache>(GCSBuildCacheServiceFactory::class)
-                remote<GCSBuildCache> {
-                    isPush = true
-                }
+        settings.buildCache {
+            registerBuildCacheService<GCSBuildCache>(GCSBuildCacheServiceFactory::class)
+            remote<GCSBuildCache> {
+                isPush = true
             }
         }
     }
