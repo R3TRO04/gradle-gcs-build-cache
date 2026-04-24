@@ -18,6 +18,7 @@ package net.idlestate.gradle.caching
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.storage.Bucket
+import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageException
 import com.google.cloud.storage.StorageOptions
 import com.google.common.io.FileBackedOutputStream
@@ -47,12 +48,13 @@ class GCSBuildCacheService(
     private val refreshAfterSeconds: Long,
     private val writeThreshold: Int,
 ) : BuildCacheService {
+    private val storage: Storage
     private val bucket: Bucket
 
     init {
         val creds = resolveCredentials(credentials)
         try {
-            val storage =
+            storage =
                 StorageOptions
                     .newBuilder()
                     .setCredentials(creds)
@@ -117,16 +119,15 @@ class GCSBuildCacheService(
     }
 
     override fun close() {
-        // Nothing to close; Storage is lightweight and per-request.
+        storage.close()
     }
 
-    private fun objectNameFor(key: BuildCacheKey): String =
-        listOfNotNull(prefix, key.hashCode).joinToString("/")
+    private fun objectNameFor(key: BuildCacheKey): String = listOfNotNull(prefix, key.hashCode).joinToString("/")
 
     private fun resolveCredentials(input: String): GoogleCredentials =
         if (input.isEmpty()) {
             GoogleCredentials.getApplicationDefault()
         } else {
-            ServiceAccountCredentials.fromStream(FileInputStream(input))
+            FileInputStream(input).use { ServiceAccountCredentials.fromStream(it) }
         }
 }

@@ -37,7 +37,7 @@ class GCSBuildCacheServiceFactory : BuildCacheServiceFactory<GCSBuildCache> {
 
         require(bucket.isPresent && bucket.get().isNotBlank()) {
             """
-            |"The name of the bucket has to be defined."
+            |The name of the bucket has to be defined.
             |remote( GCSBuildCache.class ) {
             |   credentials = 'my-key.json' // (optional)
             |   bucket = 'my-bucket'
@@ -60,8 +60,8 @@ class GCSBuildCacheServiceFactory : BuildCacheServiceFactory<GCSBuildCache> {
         return GCSBuildCacheService(
             credentials = credentials.get(),
             bucketName = bucket.get(),
-            prefix = prefix.get(),
-            refreshAfterSeconds = refreshAfterSeconds.map { it.toLong() }.get(),
+            prefix = prefix.orNull,
+            refreshAfterSeconds = refreshAfterSeconds.get().toLong(),
             writeThreshold = writeThreshold.get(),
         )
     }

@@ -15,9 +15,7 @@
  */
 package net.idlestate.gradle.caching
 
-import com.google.auth.oauth2.GoogleCredentials
 import org.gradle.api.provider.Property
-import org.gradle.caching.BuildCacheException
 import org.gradle.caching.configuration.AbstractBuildCache
 
 /**
