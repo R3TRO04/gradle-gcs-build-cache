@@ -11,6 +11,19 @@ version = "1.4.0"
 
 dependencies {
     implementation(libs.google.cloud.storage)
+
+    constraints {
+        implementation(libs.jackson.core) {
+            because(
+                """
+                |Its a transitiv dependency of google cloud storage. 
+                |It contains security issues.
+                |WS-2026-0003
+                |GHSA-72hv-8253-57qq
+                """.trimMargin(),
+            )
+        }
+    }
 }
 
 ktlint {
@@ -24,22 +37,22 @@ kotlin {
     jvmToolchain(17)
 }
 
+tasks.validatePlugins {
+    enableStricterValidation = true
+}
+
 gradlePlugin {
     website = "https://github.com/tehlers/gradle-gcs-build-cache"
     vcsUrl = "https://github.com/tehlers/gradle-gcs-build-cache.git"
 
     plugins {
-        create(
-            "gcsBuildCache",
-            Action {
-                id = "net.idlestate.gradle-gcs-build-cache"
-                implementationClass = "net.idlestate.gradle.caching.GCSBuildCachePlugin"
-                displayName = "GCS Build Cache"
-                description =
-                    "A Gradle build cache implementation that uses Google Cloud Storage (GCS) to store the build artifacts. Since this is a settings plugin the build script snippets below won't work. Please consult the documentation at Github."
-                tags = listOf("build-cache", "gcs", "Google Cloud Storage", "cache")
-            },
-        )
+        register("net.idlestate.gradle-gcs-build-cache") {
+            implementationClass = "net.idlestate.gradle.caching.GCSBuildCachePlugin"
+            displayName = "GCS Build Cache"
+            description =
+                "A Gradle build cache implementation that uses Google Cloud Storage (GCS) to store the build artifacts. Since this is a settings plugin the build script snippets below won't work. Please consult the documentation at Github."
+            tags = listOf("build-cache", "gcs", "Google Cloud Storage", "cache")
+        }
     }
 }
 
