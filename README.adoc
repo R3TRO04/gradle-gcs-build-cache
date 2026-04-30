@@ -8,7 +8,7 @@ It can also be registered manually without applying the plugin.
 
 == Requirements
 
-* Gradle 9.x (built and tested with 9.2.1)
+* Gradle 9.x (built and tested with 9.5.0)
 * JDK 17+ to run Gradle
 * A GCS bucket and appropriate IAM on your project/bucket
 
@@ -68,7 +68,7 @@ buildCache {
         credentials = "/path/to/service-account.json" // optional; empty uses ADC
         bucket = "my-bucket"
         prefix = "app-cache"
-        refreshAfterSeconds.set = 86400
+        refreshAfterSeconds = 86400
         writeThreshold = 8 * 1024 * 1024
         isEnabled = true
         isPush = true

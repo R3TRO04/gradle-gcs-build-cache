@@ -44,14 +44,13 @@ abstract class GCSBuildCache : AbstractBuildCache() {
     abstract val prefix: Property<String>
 
     /**
-     * Metadata refresh interval in seconds; 0 disables refresh.
+     * Amount of time to wait before the timestamp of a cached artifact that is
+     * still in use will be renewed. A value of 0 disables refresh.
      */
     abstract val refreshAfterSeconds: Property<Int>
 
     /**
      * Threshold in bytes under which writes are buffered instead of streamed.
-     *
-     * @throws BuildCacheException when negative
      */
     abstract val writeThreshold: Property<Int>
 }

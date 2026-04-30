@@ -9,6 +9,10 @@ plugins {
 group = "net.idlestate"
 version = "1.4.0"
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation(libs.google.cloud.storage)
 

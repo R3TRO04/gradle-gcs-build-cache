@@ -106,7 +106,7 @@ class GCSBuildCacheService(
             if (refreshAfterSeconds > 0) {
                 val created = blob.createTimeOffsetDateTime
                 if (created != null && created.plusSeconds(refreshAfterSeconds).isBefore(OffsetDateTime.now())) {
-                    blob.copyTo(bucketName, objectName)
+                    blob.copyTo(bucketName, objectName).result
                 }
             }
 
